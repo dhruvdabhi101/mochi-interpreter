@@ -14,7 +14,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("Hello %s! This is the Monkey Programming language! Learn with Dhruv!\n", user.Username)
+	fmt.Printf("Hello %s! This is the Mochi Programming language! Learn with Dhruv!\n", user.Username)
 
 	fmt.Println("Feel free to type in Commands")
 	repl.Start(os.Stdin, os.Stdout)
