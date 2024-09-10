@@ -15,3 +15,9 @@ bet b = 20;
 
 ## Todo
 - [ ] Add more parsing rules
+
+## How to Run ?
+- `go run main.go`
+
+## How to run tests ?
+- `go test ./...`
