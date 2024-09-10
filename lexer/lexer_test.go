@@ -35,13 +35,13 @@ func TestNextToken(t *testing.T) {
 }
 
 func TestMoreTokens(t *testing.T) {
-	input := `let five = 5;
-let ten = 10;
-let add = fn(x, y) {
+	input := `bet five = 5;
+bet ten = 10;
+bet add = fn(x, y) {
   x + y;
 };
 
-let result = add(five, ten);
+bet result = add(five, ten);
 !-/*5;
 5 < 10 > 5;
 if (5 < 10) {
@@ -56,17 +56,17 @@ return false;
 		expectedType    token.TokenType
 		expectedLiteral string
 	}{
-		{token.LET, "let"},
+		{token.LET, "bet"},
 		{token.IDENT, "five"},
 		{token.ASSIGN, "="},
 		{token.INT, "5"},
 		{token.SEMICOLON, ";"},
-		{token.LET, "let"},
+		{token.LET, "bet"},
 		{token.IDENT, "ten"},
 		{token.ASSIGN, "="},
 		{token.INT, "10"},
 		{token.SEMICOLON, ";"},
-		{token.LET, "let"},
+		{token.LET, "bet"},
 		{token.IDENT, "add"},
 		{token.ASSIGN, "="},
 		{token.FUNCTION, "fn"},
@@ -82,7 +82,7 @@ return false;
 		{token.SEMICOLON, ";"},
 		{token.RBRACE, "}"},
 		{token.SEMICOLON, ";"},
-		{token.LET, "let"},
+		{token.LET, "bet"},
 		{token.IDENT, "result"},
 		{token.ASSIGN, "="},
 		{token.IDENT, "add"},
