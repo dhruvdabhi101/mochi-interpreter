@@ -91,7 +91,7 @@ func (l *Lexer) NextToken() token.Token {
 }
 
 func newToken(tokenType token.TokenType, ch byte) token.Token {
-	return token.Token{
+	return token.Token {
 		Type:    tokenType,
 		Literal: string(ch),
 	}
