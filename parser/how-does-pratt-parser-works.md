@@ -13,6 +13,7 @@ if the loop evaluates to true, then we parse the infix expression, and check if 
 
 and we recursivly parse the expression till we find the SEMICOLON.
 
-> [info] The above explanation is a high level overview of how the Pratt parser works, and it is not the exact implementation of the parser.
+> [!WARNING]
+> The above explanation is a high level overview of how the Pratt parser works, and it is not the exact implementation of the parser.
 
 
