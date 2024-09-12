@@ -28,4 +28,4 @@ bet b = 20;
 - `go test ./...`
 
 ## Notes
-- [Pratt Parser](./parser/how-does-pratter-parser-works.md)
+- [Pratt Parser](parser/how-does-pratt-parser-works.md)
