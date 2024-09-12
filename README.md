@@ -4,6 +4,7 @@ Mochi is a simple programming language that I am creating for fun and to learn c
 
 ## Features
 - REPL
+- Parser
 
 
 ## Example
@@ -14,10 +15,17 @@ bet b = 20;
 ```
 
 ## Todo
-- [ ] Add more parsing rules
+- [x] Lexer
+- [x] Parser
+- [ ] Interpreter
+- [ ] Error Handling
+- [ ] Tests
 
 ## How to Run ?
 - `go run main.go`
 
 ## How to run tests ?
 - `go test ./...`
+
+## Notes
+- [Pratt Parser](./parser/how-does-pratter-parser-works.md)
