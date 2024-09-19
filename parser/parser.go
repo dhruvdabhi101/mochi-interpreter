@@ -29,7 +29,7 @@ var precedences = map[token.TokenType]int{
 	token.MINUS:    SUM,
 	token.SLASH:    PRODUCT,
 	token.ASTERISK: PRODUCT,
-  token.LPAREN:     CALL,
+	token.LPAREN:   CALL,
 }
 
 type Parser struct {
@@ -168,30 +168,36 @@ func (p *Parser) parseStatement() ast.Statement {
 }
 
 func (p *Parser) parseLetStatement() ast.Statement {
-	smtm := &ast.LetStatement{Token: p.curToken}
+	stmt := &ast.LetStatement{Token: p.curToken}
 
 	if !p.expectPeek(token.IDENT) {
 		return nil
 	}
-	smtm.Name = &ast.Identifier{Token: p.curToken, Value: p.curToken.Literal}
+	stmt.Name = &ast.Identifier{Token: p.curToken, Value: p.curToken.Literal}
 
 	if !p.expectPeek(token.ASSIGN) {
 		return nil
 	}
+  p.nextToken()
 
-	for !p.curTokenIs(token.SEMICOLON) {
+	stmt.Value = p.parseExpression(LOWEST)
+
+	if p.peekTokenIs(token.SEMICOLON) {
 		p.nextToken()
 	}
-	return smtm
+
+	return stmt
 }
 
 func (p *Parser) parseReturnStatement() ast.Statement {
 	stmt := &ast.ReturnStatement{Token: p.curToken}
 	p.nextToken()
-	for !p.curTokenIs(token.SEMICOLON) {
+
+	stmt.ReturnValue = p.parseExpression(LOWEST)
+
+	if p.peekTokenIs(token.SEMICOLON) {
 		p.nextToken()
 	}
-
 	return stmt
 }
 
@@ -377,16 +383,16 @@ func (p *Parser) parseCallArguments() []ast.Expression {
 		return args
 	}
 
-	p.nextToken() // if not ) then getting at first argument
+	p.nextToken()                                  // if not ) then getting at first argument
 	args = append(args, p.parseExpression(LOWEST)) // adding first argument to the list
 
-  for p.peekTokenIs(token.COMMA) { // if there is next token , , means there are more arguments
-    p.nextToken() // getting at ,
-    p.nextToken() // getting at the next argument
-    args = append(args, p.parseExpression(LOWEST)) // adding the new argument
-  }
-  if !p.expectPeek(token.RPAREN) {
-    return nil
-  }
-  return args
+	for p.peekTokenIs(token.COMMA) { // if there is next token , , means there are more arguments
+		p.nextToken()                                  // getting at ,
+		p.nextToken()                                  // getting at the next argument
+		args = append(args, p.parseExpression(LOWEST)) // adding the new argument
+	}
+	if !p.expectPeek(token.RPAREN) {
+		return nil
+	}
+	return args
 }
