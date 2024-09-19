@@ -29,6 +29,7 @@ var precedences = map[token.TokenType]int{
 	token.MINUS:    SUM,
 	token.SLASH:    PRODUCT,
 	token.ASTERISK: PRODUCT,
+  token.LPAREN:     CALL,
 }
 
 type Parser struct {
@@ -67,6 +68,7 @@ func New(l *lexer.Lexer) *Parser {
 	p.registerInfix(token.EQ, p.parseInfixExpression)
 	p.registerInfix(token.LT, p.parseInfixExpression)
 	p.registerInfix(token.GT, p.parseInfixExpression)
+	p.registerInfix(token.LPAREN, p.parseCallExpression)
 
 	p.nextToken()
 	p.nextToken()
@@ -359,4 +361,32 @@ func (p *Parser) parseFunctionParameters() []*ast.Identifier {
 		return nil
 	}
 	return identifiers
+}
+
+func (p *Parser) parseCallExpression(function ast.Expression) ast.Expression {
+	exp := &ast.CallExpression{Token: p.curToken, Function: function} // currently at (
+	exp.Arguments = p.parseCallArguments()
+	return exp
+}
+
+func (p *Parser) parseCallArguments() []ast.Expression {
+	args := []ast.Expression{}
+
+	if p.peekTokenIs(token.RPAREN) { // peeking means it will check if next token is ) or not
+		p.nextToken() // getting at )
+		return args
+	}
+
+	p.nextToken() // if not ) then getting at first argument
+	args = append(args, p.parseExpression(LOWEST)) // adding first argument to the list
+
+  for p.peekTokenIs(token.COMMA) { // if there is next token , , means there are more arguments
+    p.nextToken() // getting at ,
+    p.nextToken() // getting at the next argument
+    args = append(args, p.parseExpression(LOWEST)) // adding the new argument
+  }
+  if !p.expectPeek(token.RPAREN) {
+    return nil
+  }
+  return args
 }
